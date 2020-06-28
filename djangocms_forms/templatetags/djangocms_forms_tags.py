@@ -55,7 +55,15 @@ def classes(field):
     """
     Returns CSS classes of a field
     """
-    return field.widget.attrs.get('class', None)
+    django_class = field.widget.attrs.get('class', None)
+    bootstrap_class = []
+    
+    if is_file(field):
+        bootstrap_class = ['form-control-file']
+    else:
+        bootstrap_class = ['form-control']
+        
+    return bootstrap_class if django_class is None else bootstrap_class.append(django_class)
 
 
 @register.filter
